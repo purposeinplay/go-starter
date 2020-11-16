@@ -1,0 +1,17 @@
+name: Build and Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  tests:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: "🚧: Build & Test"
+        run: |
+          docker-compose -f ./d8t/docker-compose.test.yml up -d
+      - name: Run migrations
+        run: docker exec http go run main.go migrate --config config/config.test.yaml
+      - name: Run tests
+        run: docker exec http go test -p 1 ./...

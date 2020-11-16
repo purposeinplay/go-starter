@@ -1,0 +1,7 @@
+SERVER:
+  HOST: 0.0.0.0
+  PORT: 3000
+
+DB:
+  DRIVER: postgres
+  URL: host=db user=gostarter_development password=pass dbname=gostarter_development sslmode=disable

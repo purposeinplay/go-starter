@@ -1,0 +1,31 @@
+version: '3'
+services:
+  http:
+    image: oakeshq/go-starter
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ../:/app
+      - $GOPATH/pkg/mod/cache:/go/pkg/mod/cache
+    working_dir: /app
+    ports:
+      - 3000:3000
+    environment:
+      SERVER_TYPE: http
+  db:
+    image: postgres:12.3-alpine
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ../postgres-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: gostarter_development
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: gostarter_development
+    ports:
+      - 3432:5432
