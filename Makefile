@@ -1,4 +1,4 @@
-.PHONY: deps migrate test
+.PHONY: deps migrate_test test
 CHECK_FILES?=$$(go list ./... | grep -v /vendor/)
 
 deps: ## Install dependencies.

@@ -18,15 +18,15 @@ services:
     image: postgres:12.3-alpine
     restart: always
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U gostarter_test" ]
+      test: [ "CMD-SHELL", "pg_isready -U gostarter" ]
       interval: 10s
       timeout: 5s
       retries: 5
     volumes:
       - ./init:/docker-entrypoint-initdb.d
     environment:
-      POSTGRES_USER: gostarter_test
+      POSTGRES_USER: gostarter
       POSTGRES_PASSWORD: pass
-      POSTGRES_DB: gostarter_test
+      POSTGRES_DB: gostarter
     ports:
       - 5432:5432

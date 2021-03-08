@@ -2,7 +2,7 @@
 package dialer
 
 import (
-	"github.com/oakeshq/go-starter/internal/user/storage"
+	storage2 "github.com/oakeshq/go-starter/internal/storage"
 	"log"
 
 	"github.com/cenkalti/backoff/v4"
@@ -56,7 +56,7 @@ func Connect(config *config.Config) (*gorm.DB, error) {
 
 // Migrate runs the gorm migration for all models
 func Migrate(db *gorm.DB) error {
-	allModels := []interface{}{&storage.User{}}
+	allModels := []interface{}{&storage2.User{}}
 
 	if err := db.Migrator().DropTable(allModels...); err != nil {
 		log.Printf("Failed to drop table, got error %v\n", err)

@@ -1,7 +1,6 @@
-package user
+package storage
 
 import (
-	"github.com/oakeshq/go-starter/internal/user/storage"
 	"gorm.io/gorm"
 )
 
@@ -16,8 +15,8 @@ func NewRepository(db *gorm.DB) *Repository {
 }
 
 // Find all users that match the conditions
-func (r *Repository) Find(conds ...interface{}) (*[]storage.User, error) {
-	var users []storage.User
+func (r *Repository) Find(conds ...interface{}) (*[]User, error) {
+	var users []User
 
 	if err := r.db.Find(&users, conds...).Error; err != nil {
 		return nil, err
@@ -25,9 +24,9 @@ func (r *Repository) Find(conds ...interface{}) (*[]storage.User, error) {
 	return &users, nil
 }
 
-// Return first user that matches the conditions
-func (r *Repository) First(conds ...interface{}) (*storage.User, error) {
-	var user storage.User
+// Return first storage that matches the conditions
+func (r *Repository) First(conds ...interface{}) (*User, error) {
+	var user User
 
 	if err := r.db.First(&user, conds...).Error; err != nil {
 		return nil, err

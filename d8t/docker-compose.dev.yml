@@ -2,6 +2,7 @@ version: '3'
 services:
   http:
     image: oakeshq/go-starter
+    container_name: http
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -22,10 +23,11 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ../postgres-data:/var/lib/postgresql/data
+      - ./init/createExtension.sh:/docker-entrypoint-initdb.d/init.sh
     environment:
-      POSTGRES_USER: gostarter_development
+      POSTGRES_USER: gostarter
       POSTGRES_PASSWORD: pass
-      POSTGRES_DB: gostarter_development
+      POSTGRES_DB: gostarter
     ports:
-      - 3432:5432
+      - 5432:5432
+

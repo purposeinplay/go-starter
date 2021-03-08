@@ -1,15 +1,14 @@
-package user
+package api
 
 import (
 	"fmt"
 	"github.com/oakeshq/go-starter/config"
-	"github.com/oakeshq/go-starter/internal/user/storage"
+	"github.com/oakeshq/go-starter/internal/storage"
 	"github.com/oakeshq/go-starter/pkg/router"
 	"github.com/oakeshq/go-starter/pkg/storage/dialer"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
-	"gorm.io/gorm"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -18,8 +17,7 @@ import (
 
 type UserTestSuite struct {
 	suite.Suite
-	db      *gorm.DB
-	router      *router.Router
+	api *API
 }
 
 func TestCollection(t *testing.T) {
@@ -34,34 +32,34 @@ func TestCollection(t *testing.T) {
 
 	r := router.NewRouter()
 
-	RegisterHandlers(r, db, cfg)
+	//RegisterHandlers(r, db, cfg)
+	api := NewAPI(cfg, r, db)
 
 	ts := &UserTestSuite{
-		db:      db,
-		router:      r,
+		api: api,
 	}
 
 	suite.Run(t, ts)
 }
 
 func (ts *UserTestSuite) SetupTest() {
-	ts.db.Exec("TRUNCATE TABLE users")
+	ts.api.db.Exec("TRUNCATE TABLE users")
 }
 
 func (ts *UserTestSuite) TestCollection_UserList() {
-	req, _ := http.NewRequest("GET", "/users", nil)
+	req, _ := http.NewRequest("GET", "/v1/users", nil)
 	req.Header.Set("Content-Type", "application/json")
 
 	user := &storage.User{
 		Email: "my@email.com",
 	}
 
-	createUser := ts.db.Create(user)
+	createUser := ts.api.db.Create(user)
 	require.NoError(ts.T(), createUser.Error)
 
 	response := httptest.NewRecorder()
 
-	ts.router.ServeHTTP(response, req)
+	ts.api.r.ServeHTTP(response, req)
 
 	expected := fmt.Sprintf(`[
 		{
@@ -76,12 +74,12 @@ func (ts *UserTestSuite) TestCollection_UserList() {
 }
 
 func (ts *UserTestSuite) TestCollection_UserListEmpty() {
-	req, _ := http.NewRequest("GET", "/users", nil)
+	req, _ := http.NewRequest("GET", "/v1/users", nil)
 	req.Header.Set("Content-Type", "application/json")
 
 	response := httptest.NewRecorder()
 
-	ts.router.ServeHTTP(response, req)
+	ts.api.r.ServeHTTP(response, req)
 
 	expected := `[]`
 

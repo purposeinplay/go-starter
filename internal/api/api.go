@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/oakeshq/go-starter/config"
 	"github.com/oakeshq/go-starter/internal/healthcheck"
-	"github.com/oakeshq/go-starter/internal/user"
+	"github.com/oakeshq/go-starter/internal/storage"
 	"github.com/oakeshq/go-starter/pkg/httperr"
 	"github.com/oakeshq/go-starter/pkg/logs"
 	gmiddleware "github.com/oakeshq/go-starter/pkg/middleware"
@@ -20,10 +20,11 @@ import (
 
 // API exposes the integral struct
 type API struct {
-	handler    http.Handler
-	r          *router.Router
-	config     *config.Config
-	db     *gorm.DB
+	handler    	http.Handler
+	r          	*router.Router
+	config     	*config.Config
+	db     		*gorm.DB
+	service 	*storage.Service
 }
 
 // NewAPI instantiates a new REST API.
@@ -38,7 +39,9 @@ func NewAPI(
 		config:     config,
 		db:     db,
 	}
-
+	repo := storage.NewRepository(db)
+	service := storage.NewService(repo)
+	api.service = service
 	ctx := context.Background()
 	r.Chi.Use(middleware.RealIP)
 	r.Use(gmiddleware.RequestIDCtx)
@@ -55,8 +58,9 @@ func NewAPI(
 	healthcheck.RegisterHandlers(r)
 
 	r.Route("/v1", func(r *router.Router) {
-		user.RegisterHandlers(r, db, config)
+		r.Get("/users", api.ListUsers)
 	})
+	//r.Get("/users", api.ListUsers)
 
 	api.handler = corsHandler.Handler(chi.ServerBaseContext(ctx, r))
 	return api

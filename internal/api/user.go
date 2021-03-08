@@ -1,11 +1,11 @@
-package user
+package api
 
 import (
-	"encoding/json"
-	"github.com/oakeshq/go-starter/internal/user/storage"
-	"github.com/oakeshq/go-starter/pkg/httperr"
-	"github.com/oakeshq/go-starter/pkg/render"
-	"net/http"
+"encoding/json"
+"github.com/oakeshq/go-starter/internal/storage"
+"github.com/oakeshq/go-starter/pkg/httperr"
+"github.com/oakeshq/go-starter/pkg/render"
+"net/http"
 )
 
 type responsePayload struct {
@@ -29,18 +29,9 @@ func (p *responsePayload) MarshalJSON() ([]byte, error) {
 	return json.Marshal(users)
 }
 
-type Handler struct {
-	service *Service
-}
 
-func NewHandler(service *Service) *Handler {
-	return &Handler{
-		service: service,
-	}
-}
-
-func (h *Handler) ListUsers(w http.ResponseWriter, r *http.Request) error {
-	users, err := h.service.FindAll()
+func (a *API) ListUsers(w http.ResponseWriter, r *http.Request) error {
+	users, err := a.service.FindAll()
 
 	if err != nil {
 		return httperr.BadRequestError("An error occurred").WithInternalMessage("Couldn't fetch accounts: %v", err)
