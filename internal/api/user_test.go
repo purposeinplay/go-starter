@@ -2,13 +2,14 @@ package api
 
 import (
 	"fmt"
-	"github.com/oakeshq/go-starter/config"
-	"github.com/oakeshq/go-starter/internal/storage"
-	"github.com/oakeshq/go-starter/pkg/router"
-	"github.com/oakeshq/go-starter/pkg/storage/dialer"
-	"github.com/sirupsen/logrus"
+	"github.com/purposeinplay/go-commons/logs"
+	"github.com/purposeinplay/go-starter/config"
+	"github.com/purposeinplay/go-starter/internal/storage"
+	"github.com/purposeinplay/go-starter/pkg/storage/dialer"
+	"github.com/purposeinplay/go-commons/http/router"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
+	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -23,8 +24,10 @@ type UserTestSuite struct {
 func TestCollection(t *testing.T) {
 	cfg, err := config.LoadTestConfig("../../config/config.test.yaml")
 
+	logger := logs.NewLogger()
+
 	if err != nil {
-		logrus.Fatalf("Unable to read config %v", err)
+		logger.Fatal("Unable to read config", zap.Error(err))
 	}
 
 	db, err := dialer.Connect(cfg)

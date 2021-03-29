@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/oakeshq/go-starter/cmd"
+	"github.com/purposeinplay/go-starter/cmd"
 )
 
 func main() {

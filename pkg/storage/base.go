@@ -1,7 +1,7 @@
-package models
+package storage
 
 import (
-"github.com/pborman/uuid"
+	"github.com/pborman/uuid"
 "time"
 )
 

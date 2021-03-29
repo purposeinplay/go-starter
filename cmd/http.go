@@ -1,40 +1,40 @@
 package cmd
 
 import (
-	"github.com/oakeshq/go-starter/config"
-	"github.com/oakeshq/go-starter/internal/api"
-	"github.com/oakeshq/go-starter/pkg/router"
-	"github.com/oakeshq/go-starter/pkg/server"
-	"github.com/oakeshq/go-starter/pkg/storage/dialer"
+	"github.com/purposeinplay/go-commons/logs"
+	"github.com/purposeinplay/go-starter/config"
+	"github.com/purposeinplay/go-starter/internal/api"
+	"github.com/purposeinplay/go-commons/http/router"
+	"github.com/purposeinplay/go-starter/pkg/server"
+	"github.com/purposeinplay/go-starter/pkg/storage/dialer"
+	"go.uber.org/zap"
 
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	prefixed "github.com/x-cray/logrus-prefixed-formatter"
 )
 
 var HTTPCmd = &cobra.Command{
 	Use:   "http",
 	Short: "Starts the http server",
 	Run: func(cmd *cobra.Command, args []string) {
-		logrus.SetFormatter(&prefixed.TextFormatter{
-			ForceFormatting: true,
-		})
+
+		logger := logs.NewLogger()
 
 		cfg, err := config.LoadConfig(cmd)
 
 		if err != nil {
-			logrus.Fatalf("Unable to read config %v", err)
+			logger.Fatal("Unable to read config", zap.Error(err))
 		}
 
 		db, err := dialer.Connect(cfg)
 
 		if err != nil {
-			logrus.Fatalf("Error opening database: %+v", err)
+			logger.Fatal("Error opening database", zap.Error(err))
 		}
 
 
 		r := router.NewRouter()
 		api.NewAPI(cfg, r, db)
+		logger.Info("API started on", zap.String("host", cfg.SERVER.Host), zap.Int("port", cfg.SERVER.Port))
 		server.ListenAndServe(cfg, r)
 	},
 }

@@ -15,7 +15,7 @@ The starter kit uses the following Go packages. They can be easily replaceable, 
   * Configuration [viper](https://github.com/spf13/viper)
   * Auto docker recompile [reflex](https://github.com/acim/go-reflex) 
 
-![Test](https://github.com/oakeshq/go-starter/workflows/Test/badge.svg)
+![Test](https://github.com/purposeinplay/go-starter/workflows/Test/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/qreasio/go-starter-kit)](https://goreportcard.com/report/github.com/qreasio/go-starter-kit)
 
 ## Get Started

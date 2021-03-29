@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -12,14 +11,14 @@ import (
 // Config the asd.json file should be set at the root level
 type Config struct {
 	SERVER struct {
-		Host string `json:"host"`
-		Port int    `json:"port"`
+		Host string `mapstructure:"host"`
+		Port int    `mapstructure:"port"`
 	}
 
 	DB struct {
-		Driver      string `json:"driver" required:"true"`
-		URL         string `json:"url" required:"true"`
-		Automigrate bool
+		Driver      string `mapstructure:"driver"`
+		URL         string `mapstructure:"url"`
+		Automigrate bool `mapstructure:"automigrate"`
 	}
 }
 
@@ -60,7 +59,7 @@ func LoadConfig(cmd *cobra.Command) (*Config, error) {
 	config := new(Config)
 
 	if err := viper.Unmarshal(&config); err != nil {
-		logrus.Fatalf("Unable to decode into struct")
+		return nil, err
 	}
 
 	fmt.Println(config)

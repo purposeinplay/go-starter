@@ -4,4 +4,4 @@ SERVER:
 
 DB:
   DRIVER: postgres
-  URL: host=db user=gostarter password=pass dbname=gostarter sslmode=disable
+  URL: host=0.0.0.0 user=win password=password dbname=gostarter sslmode=disable

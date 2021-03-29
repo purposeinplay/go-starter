@@ -1,6 +1,7 @@
-package storage
+package repository
 
 import (
+	"github.com/purposeinplay/go-starter/internal/entity"
 	"gorm.io/gorm"
 )
 
@@ -15,8 +16,8 @@ func NewRepository(db *gorm.DB) *Repository {
 }
 
 // Find all users that match the conditions
-func (r *Repository) Find(conds ...interface{}) (*[]User, error) {
-	var users []User
+func (r *Repository) Find(conds ...interface{}) (*[]entity.User, error) {
+	var users []entity.User
 
 	if err := r.db.Find(&users, conds...).Error; err != nil {
 		return nil, err
@@ -25,8 +26,8 @@ func (r *Repository) Find(conds ...interface{}) (*[]User, error) {
 }
 
 // Return first storage that matches the conditions
-func (r *Repository) First(conds ...interface{}) (*User, error) {
-	var user User
+func (r *Repository) First(conds ...interface{}) (*entity.User, error) {
+	var user entity.User
 
 	if err := r.db.First(&user, conds...).Error; err != nil {
 		return nil, err

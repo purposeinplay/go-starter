@@ -2,12 +2,12 @@
 package dialer
 
 import (
-	storage2 "github.com/oakeshq/go-starter/internal/storage"
+	"github.com/purposeinplay/go-starter/internal/entity"
 	"log"
 
 	"github.com/cenkalti/backoff/v4"
 	_ "github.com/lib/pq"
-	"github.com/oakeshq/go-starter/config"
+	"github.com/purposeinplay/go-starter/config"
 	"gorm.io/driver/postgres"
 	_ "gorm.io/driver/postgres"
 	"gorm.io/gorm/logger"
@@ -37,8 +37,6 @@ func Connect(config *config.Config) (*gorm.DB, error) {
 		return nil, err
 	}
 
-	//if logrus.StandardLogger().Level == logrus.DebugLevel {
-	//}
 	db.Logger = db.Logger.LogMode(logger.Info)
 
 	sqlDB, err := db.DB()
@@ -56,7 +54,7 @@ func Connect(config *config.Config) (*gorm.DB, error) {
 
 // Migrate runs the gorm migration for all models
 func Migrate(db *gorm.DB) error {
-	allModels := []interface{}{&storage2.User{}}
+	allModels := []interface{}{&entity.User{}}
 
 	if err := db.Migrator().DropTable(allModels...); err != nil {
 		log.Printf("Failed to drop table, got error %v\n", err)

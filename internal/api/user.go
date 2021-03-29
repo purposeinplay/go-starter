@@ -1,18 +1,18 @@
 package api
 
 import (
-"encoding/json"
-"github.com/oakeshq/go-starter/internal/storage"
-"github.com/oakeshq/go-starter/pkg/httperr"
-"github.com/oakeshq/go-starter/pkg/render"
-"net/http"
+	"encoding/json"
+	"github.com/purposeinplay/go-commons/http/httperr"
+	"github.com/purposeinplay/go-commons/http/render"
+	"github.com/purposeinplay/go-starter/internal/entity"
+	"net/http"
 )
 
-type responsePayload struct {
-	Users *[]storage.User `json:"users"`
+type ListUsersResponse struct {
+	Users *[]entity.User `json:"users"`
 }
 
-func (p *responsePayload) MarshalJSON() ([]byte, error) {
+func (p *ListUsersResponse) MarshalJSON() ([]byte, error) {
 	type Alias struct {
 		Email    string `json:"email"`
 	}
@@ -37,7 +37,8 @@ func (a *API) ListUsers(w http.ResponseWriter, r *http.Request) error {
 		return httperr.BadRequestError("An error occurred").WithInternalMessage("Couldn't fetch accounts: %v", err)
 	}
 
-	return render.SendJSON(w, http.StatusOK, &responsePayload{
+
+	return render.SendJSON(w, http.StatusOK, &ListUsersResponse{
 		Users: users,
 	})
 }

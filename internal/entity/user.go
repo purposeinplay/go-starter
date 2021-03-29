@@ -1,12 +1,12 @@
-package storage
+package entity
 
 import (
-	"github.com/oakeshq/go-starter/pkg/storage/models"
+	"github.com/purposeinplay/go-starter/pkg/storage"
 )
 
 // User model
 type User struct {
-	models.Base
+	storage.Base
 
 	Email string 				`json:"email" gorm:"uniqueIndex; not null"`
 }
