@@ -32,12 +32,15 @@ func (r *Router) Group(fn func(*Router)) {
 func (r *Router) Get(pattern string, fn handlerFunc) {
 	r.Chi.Get(pattern, handler(fn))
 }
+
 func (r *Router) Post(pattern string, fn handlerFunc) {
 	r.Chi.Post(pattern, handler(fn))
 }
+
 func (r *Router) Put(pattern string, fn handlerFunc) {
 	r.Chi.Put(pattern, handler(fn))
 }
+
 func (r *Router) Delete(pattern string, fn handlerFunc) {
 	r.Chi.Delete(pattern, handler(fn))
 }
@@ -50,6 +53,7 @@ func (r *Router) With(fn MiddlewareHandler) *Router {
 func (r *Router) Use(fn MiddlewareHandler) {
 	r.Chi.Use(middleware(fn))
 }
+
 func (r *Router) UseBypass(fn func(next http.Handler) http.Handler) {
 	r.Chi.Use(fn)
 }

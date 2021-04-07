@@ -2,9 +2,10 @@ package middleware
 
 import (
 	"context"
+	"net/http"
+
 	wctx "github.com/oakeshq/go-starter/context"
 	"github.com/pborman/uuid"
-	"net/http"
 )
 
 func RequestIDCtx(w http.ResponseWriter, r *http.Request) (context.Context, error) {

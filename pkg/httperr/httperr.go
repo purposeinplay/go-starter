@@ -3,10 +3,11 @@ package httperr
 import (
 	"context"
 	"fmt"
-	wctx "github.com/oakeshq/go-starter/context"
 	"net/http"
 	"os"
 	"runtime/debug"
+
+	wctx "github.com/oakeshq/go-starter/context"
 
 	"github.com/oakeshq/go-starter/pkg/logs"
 	"github.com/oakeshq/go-starter/pkg/render"
