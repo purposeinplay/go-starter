@@ -2,6 +2,8 @@ package api
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/oakeshq/go-starter/config"
@@ -11,20 +13,19 @@ import (
 	"github.com/oakeshq/go-starter/pkg/logs"
 	gmiddleware "github.com/oakeshq/go-starter/pkg/middleware"
 	"github.com/rs/cors"
-	"github.com/sirupsen/logrus"
+	"go.uber.org/zap"
 	"gorm.io/gorm"
-	"net/http"
 
 	"github.com/oakeshq/go-starter/pkg/router"
 )
 
 // API exposes the integral struct
 type API struct {
-	handler    	http.Handler
-	r          	*router.Router
-	config     	*config.Config
-	db     		*gorm.DB
-	service 	*storage.Service
+	handler http.Handler
+	r       *router.Router
+	config  *config.Config
+	db      *gorm.DB
+	service *storage.Service
 }
 
 // NewAPI instantiates a new REST API.
@@ -33,10 +34,9 @@ func NewAPI(
 	r *router.Router,
 	db *gorm.DB,
 ) *API {
-
 	api := &API{
-		r:          r,
-		config:     config,
+		r:      r,
+		config: config,
 		db:     db,
 	}
 	repo := storage.NewRepository(db)
@@ -46,7 +46,10 @@ func NewAPI(
 	r.Chi.Use(middleware.RealIP)
 	r.Use(gmiddleware.RequestIDCtx)
 	r.Use(httperr.Recoverer)
-	r.UseBypass(logs.NewStructuredLogger(logrus.StandardLogger()))
+
+	logger, _ := zap.NewProduction()
+	defer logger.Sync() // flushes buffer, if any
+	r.UseBypass(logs.NewStructuredLogger(logger))
 
 	corsHandler := cors.New(cors.Options{
 		AllowedMethods:   []string{"GET", "POST", "PATCH", "PUT", "DELETE"},
@@ -60,7 +63,7 @@ func NewAPI(
 	r.Route("/v1", func(r *router.Router) {
 		r.Get("/users", api.ListUsers)
 	})
-	//r.Get("/users", api.ListUsers)
+	// r.Get("/users", api.ListUsers)
 
 	api.handler = corsHandler.Handler(chi.ServerBaseContext(ctx, r))
 	return api

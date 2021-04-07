@@ -3,10 +3,11 @@ package httperr
 import (
 	"context"
 	"fmt"
-	wctx "github.com/oakeshq/go-starter/context"
 	"net/http"
 	"os"
 	"runtime/debug"
+
+	wctx "github.com/oakeshq/go-starter/context"
 
 	"github.com/oakeshq/go-starter/pkg/logs"
 	"github.com/oakeshq/go-starter/pkg/render"
@@ -179,7 +180,7 @@ func HandleError(err error, w http.ResponseWriter, r *http.Request) {
 	case ErrorCause:
 		HandleError(e.Cause(), w, r)
 	default:
-		log.WithError(e).Errorf("Unhandled server error: %s", e.Error())
+		log.WithError(e).Sugar().Errorf("Unhandled server error: %s", e.Error())
 		// hide real error details from response to prevent info leaks
 		w.WriteHeader(http.StatusInternalServerError)
 		if _, writeErr := w.Write([]byte(`{"code":500,"msg":"Internal server error","error_id":"` + errorID + `"}`)); writeErr != nil {

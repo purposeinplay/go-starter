@@ -23,6 +23,7 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.5.1
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
+	go.uber.org/zap v1.16.0
 	golang.org/x/crypto v0.0.0-20201112155050-0c6587e931a9 // indirect
 	golang.org/x/sys v0.0.0-20201113135734-0a15ea8d9b02 // indirect
 	golang.org/x/text v0.3.4 // indirect
