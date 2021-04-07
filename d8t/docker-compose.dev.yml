@@ -30,4 +30,3 @@ services:
       POSTGRES_DB: gostarter
     ports:
       - 5432:5432
-
