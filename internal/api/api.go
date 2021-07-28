@@ -2,6 +2,8 @@ package api
 
 import (
 	"context"
+	"net/http"
+
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	mw "github.com/purposeinplay/go-commons/http/middleware"
@@ -10,8 +12,8 @@ import (
 	"github.com/purposeinplay/go-starter/internal/repository"
 	service2 "github.com/purposeinplay/go-starter/internal/service"
 	"github.com/rs/cors"
+	"google.golang.org/api/storage/v1"
 	"gorm.io/gorm"
-	"net/http"
 
 	"github.com/purposeinplay/go-commons/http/router"
 )
@@ -22,7 +24,7 @@ type API struct {
 	r       *router.Router
 	config  *config.Config
 	db      *gorm.DB
-	service *service2.Service
+	service *storage.Service
 }
 
 // NewAPI instantiates a new REST API.
@@ -31,7 +33,6 @@ func NewAPI(
 	r *router.Router,
 	db *gorm.DB,
 ) *API {
-
 	logger := logs.NewLogger()
 	defer logger.Sync()
 
