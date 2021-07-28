@@ -12,7 +12,6 @@ import (
 	"github.com/purposeinplay/go-starter/internal/repository"
 	service2 "github.com/purposeinplay/go-starter/internal/service"
 	"github.com/rs/cors"
-	"google.golang.org/api/storage/v1"
 	"gorm.io/gorm"
 
 	"github.com/purposeinplay/go-commons/http/router"
@@ -24,7 +23,7 @@ type API struct {
 	r       *router.Router
 	config  *config.Config
 	db      *gorm.DB
-	service *storage.Service
+	service *service2.Service
 }
 
 // NewAPI instantiates a new REST API.

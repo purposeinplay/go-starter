@@ -15,13 +15,11 @@ var migrateCmd = &cobra.Command{
 		logger := logs.NewLogger()
 
 		c, err := config.LoadConfig(cmd)
-
 		if err != nil {
 			logger.Fatal("Unable to read config", zap.Error(err))
 		}
 
 		db, err := dialer.Connect(c)
-
 		if err != nil {
 			logger.Fatal("Error opening database", zap.Error(err))
 		}

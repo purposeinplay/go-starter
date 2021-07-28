@@ -2,18 +2,19 @@ package api
 
 import (
 	"fmt"
-	"github.com/purposeinplay/go-commons/logs"
-	"github.com/purposeinplay/go-starter/config"
-	"github.com/purposeinplay/go-starter/internal/storage"
-	"github.com/purposeinplay/go-starter/pkg/storage/dialer"
-	"github.com/purposeinplay/go-commons/http/router"
-	"github.com/stretchr/testify/require"
-	"github.com/stretchr/testify/suite"
-	"go.uber.org/zap"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/purposeinplay/go-commons/http/router"
+	"github.com/purposeinplay/go-commons/logs"
+	"github.com/purposeinplay/go-starter/config"
+	"github.com/purposeinplay/go-starter/internal/entity"
+	"github.com/purposeinplay/go-starter/pkg/storage/dialer"
+	"github.com/stretchr/testify/require"
+	"github.com/stretchr/testify/suite"
+	"go.uber.org/zap"
 )
 
 type UserTestSuite struct {
@@ -35,7 +36,7 @@ func TestCollection(t *testing.T) {
 
 	r := router.NewRouter()
 
-	//RegisterHandlers(r, db, cfg)
+	// RegisterHandlers(r, db, cfg)
 	api := NewAPI(cfg, r, db)
 
 	ts := &UserTestSuite{
@@ -53,7 +54,7 @@ func (ts *UserTestSuite) TestCollection_UserList() {
 	req, _ := http.NewRequest("GET", "/v1/users", nil)
 	req.Header.Set("Content-Type", "application/json")
 
-	user := &storage.User{
+	user := &entity.User{
 		Email: "my@email.com",
 	}
 

@@ -1,8 +1,9 @@
 package api
 
 import (
-	"github.com/purposeinplay/go-commons/http/render"
 	"net/http"
+
+	"github.com/purposeinplay/go-commons/http/render"
 )
 
 func HealthCheck(w http.ResponseWriter, r *http.Request) error {

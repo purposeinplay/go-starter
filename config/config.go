@@ -18,7 +18,7 @@ type Config struct {
 	DB struct {
 		Driver      string `mapstructure:"driver"`
 		URL         string `mapstructure:"url"`
-		Automigrate bool `mapstructure:"automigrate"`
+		Automigrate bool   `mapstructure:"automigrate"`
 	}
 }
 
@@ -34,7 +34,6 @@ func LoadTestConfig(path string) (*Config, error) {
 // LoadConfig should load and unmarshal the config file
 func LoadConfig(cmd *cobra.Command) (*Config, error) {
 	err := viper.BindPFlags(cmd.Flags())
-
 	if err != nil {
 		return nil, err
 	}

@@ -2,10 +2,11 @@ package api
 
 import (
 	"encoding/json"
+	"net/http"
+
 	"github.com/purposeinplay/go-commons/http/httperr"
 	"github.com/purposeinplay/go-commons/http/render"
 	"github.com/purposeinplay/go-starter/internal/entity"
-	"net/http"
 )
 
 type ListUsersResponse struct {

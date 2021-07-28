@@ -1,9 +1,9 @@
-
 package dialer
 
 import (
-	"github.com/purposeinplay/go-starter/internal/entity"
 	"log"
+
+	"github.com/purposeinplay/go-starter/internal/entity"
 
 	"github.com/cenkalti/backoff/v4"
 	_ "github.com/lib/pq"
@@ -32,7 +32,6 @@ func Connect(config *config.Config) (*gorm.DB, error) {
 	}
 
 	err := backoff.Retry(operation, backoff.WithMaxRetries(backoff.NewExponentialBackOff(), 5))
-
 	if err != nil {
 		return nil, err
 	}
@@ -61,7 +60,6 @@ func Migrate(db *gorm.DB) error {
 		return err
 	}
 
-
 	if err := db.AutoMigrate(allModels...); err != nil {
 		return err
 	}
@@ -74,4 +72,3 @@ func Migrate(db *gorm.DB) error {
 
 	return nil
 }
-
