@@ -6,7 +6,7 @@ import (
 	"github.com/purposeinplay/go-commons/httpserver"
 	"github.com/purposeinplay/go-starter/internal/adapter"
 	"github.com/purposeinplay/go-starter/internal/app"
-	"github.com/purposeinplay/go-starter/internal/ports"
+	"github.com/purposeinplay/go-starter/internal/port"
 	"log"
 
 	"go.uber.org/zap"
@@ -43,10 +43,10 @@ var HttpCmd = &cobra.Command{
 		}
 
 		application := app.NewApplication(ctx, config, db, logger)
-		httpPort := ports.NewHTTPPort(application, config, db, logger)
+		httpPort := port.NewHTTPPort(application, config, db, logger)
 
 		handler := router.NewDefaultRouter(logger)
-		ports.HandlerFromMux(httpPort, handler)
+		port.HandlerFromMux(httpPort, handler)
 
 		srv := httpserver.New(
 			logger,

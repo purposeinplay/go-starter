@@ -1,4 +1,4 @@
-package ports
+package port
 
 import (
 	"github.com/purposeinplay/go-commons/http/router"
