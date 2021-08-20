@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/cenkalti/backoff/v4 v4.1.1
+	github.com/go-chi/chi v1.5.4 // indirect
 	github.com/go-chi/jwtauth v1.2.0
 	github.com/go-playground/locales v0.14.0
 	github.com/go-playground/universal-translator v0.18.0
