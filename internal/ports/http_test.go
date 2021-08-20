@@ -2,6 +2,7 @@ package ports
 
 import (
 	"github.com/purposeinplay/go-commons/http/router"
+	"github.com/purposeinplay/go-starter/internal/adapter"
 	"github.com/purposeinplay/go-starter/internal/domain"
 	"github.com/stretchr/testify/suite"
 	"net/http"
@@ -17,7 +18,6 @@ import (
 	"github.com/purposeinplay/go-commons/logs"
 
 	"github.com/purposeinplay/go-starter/internal/config"
-	"github.com/purposeinplay/go-starter/internal/storage/dialer"
 )
 
 
@@ -57,7 +57,7 @@ func CreateTestAPI(t *testing.T) (*gorm.DB, ServerInterface, http.Handler) {
 	}
 	defer logger.Sync()
 
-	db, err := dialer.Connect(cfg)
+	db, err := adapter.Connect(cfg)
 
 	if err != nil {
 		t.Fatal(err)

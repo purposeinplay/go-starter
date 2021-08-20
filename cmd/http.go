@@ -4,13 +4,12 @@ import (
 	"context"
 	"github.com/purposeinplay/go-commons/http/router"
 	"github.com/purposeinplay/go-commons/httpserver"
+	"github.com/purposeinplay/go-starter/internal/adapter"
 	"github.com/purposeinplay/go-starter/internal/app"
 	"github.com/purposeinplay/go-starter/internal/ports"
 	"log"
 
 	"go.uber.org/zap"
-
-	"github.com/purposeinplay/go-starter/internal/storage/dialer"
 
 	"github.com/purposeinplay/go-commons/logs"
 	"github.com/spf13/cobra"
@@ -37,7 +36,7 @@ var HttpCmd = &cobra.Command{
 			logger.Fatal("unable to read config %v", zap.Error(err))
 		}
 
-		db, err := dialer.Connect(config)
+		db, err := adapter.Connect(config)
 
 		if err != nil {
 			logger.Fatal("connecting to database: %+v", zap.Error(err))

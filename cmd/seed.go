@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/purposeinplay/go-commons/logs"
+	"github.com/purposeinplay/go-starter/internal/adapter"
 	"github.com/purposeinplay/go-starter/internal/config"
-	"github.com/purposeinplay/go-starter/internal/storage/dialer"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 	"log"
@@ -26,7 +26,7 @@ var seedCmd = &cobra.Command{
 			logger.Fatal("Unable to read config", zap.Error(err))
 		}
 
-		_, err = dialer.Connect(cfg)
+		_, err = adapter.Connect(cfg)
 
 		if err != nil {
 			logger.Fatal("error opening database", zap.Error(err))

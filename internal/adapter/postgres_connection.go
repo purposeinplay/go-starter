@@ -1,4 +1,4 @@
-package dialer
+package adapter
 
 import (
 	// this is where we do the connections
