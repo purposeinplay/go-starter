@@ -12,7 +12,7 @@ services:
       - 7350:7350
       - 7349:7349
     environment:
-      SERVER_TYPE: grpc
+      SERVER_TYPE: http
     depends_on:
       - db
     links:

@@ -1,8 +1,6 @@
 package user
 
 import (
-	"errors"
-	starterapi "github.com/purposeinplay/go-starter/apigrpc"
 	"github.com/purposeinplay/go-starter/internal/domain"
 )
 
@@ -26,18 +24,5 @@ func New(text string) error {
 
 var (
 	ErrUserNotFound   = New("user not found")
-	ErrEmailIsRequired   = New("email is required")
 	ErrCouldNotCreateUser   = New("could not create user")
 )
-
-func GRPCErrorFromError(err error) starterapi.ErrorCode_Code {
-	var starterErr starterapi.ErrorCode_Code
-
-	if errors.Is(err, ErrEmailIsRequired) {
-		starterErr = starterapi.ErrorCode_EMAIL_REQUIRED_ERROR
-	} else {
-		starterErr = starterapi.ErrorCode_TYPE_UNSPECIFIED
-	}
-
-	return starterErr
-}
