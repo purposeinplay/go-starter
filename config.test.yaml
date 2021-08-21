@@ -1,6 +1,6 @@
 SERVER:
   ADDRESS: 0.0.0.0
-  PORT: 7350
+  PORT: 8080
 
 DB:
   DRIVER: postgres

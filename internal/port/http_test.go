@@ -53,7 +53,7 @@ func CreateTestAPI(t *testing.T) (*gorm.DB, ServerInterface, http.Handler) {
 
 	logger, err := logs.NewLogger()
 	if err != nil {
-		t.Fatal("could not create logger %+v", err)
+		t.Fatalf("could not create logger %+v", err)
 	}
 	defer logger.Sync()
 

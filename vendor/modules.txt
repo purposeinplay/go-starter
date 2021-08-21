@@ -112,7 +112,7 @@ github.com/pelletier/go-toml
 github.com/pkg/errors
 # github.com/pmezard/go-difflib v1.0.0
 github.com/pmezard/go-difflib/difflib
-# github.com/purposeinplay/go-commons v0.0.0-20210819192415-a69c2717d639
+# github.com/purposeinplay/go-commons v0.0.0-20210821114133-b5bac3dd3efe
 ## explicit
 github.com/purposeinplay/go-commons/http
 github.com/purposeinplay/go-commons/http/render
