@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"github.com/purposeinplay/go-commons/http/router"
 	"github.com/purposeinplay/go-commons/httpserver"
 	"github.com/purposeinplay/go-starter/internal/adapter"
@@ -51,6 +52,7 @@ var HttpCmd = &cobra.Command{
 		srv := httpserver.New(
 			logger,
 			handler,
+			httpserver.WithAddress(fmt.Sprintf("%s:%d", config.SERVER.Address, config.SERVER.Port)),
 			httpserver.WithBaseContext(ctx, true),
 		)
 
