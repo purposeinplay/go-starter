@@ -46,6 +46,12 @@ DB_PASSWORD: dbpassword
 DB_NAME: dbname
 ```
 
+**UUID Type:** This project uses the `uuid-ossp` module to generate ids:
+
+```
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+```
+
 **Migrations Note** Migrations are not applied automatically, so you will need to run them after you've built GoStarter.
 * If built locally: `./go-starter migrate`
 * Using Docker: `docker run --rm go-starter ./go-starter migrate`
@@ -56,6 +62,9 @@ The recommended workflow is to use Docker and the compose file to build and run 
 
 ```shell
 docker compose -f d8t/docker-compose.dev.yml up --build
+docker exec -it go-starter-db psql -U gostarter -d gostarter
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+docker exec -it go-starter go run main.go migrate
 ```
 
 __Hot Reloading:__ GoStarter uses Reflex in development for hot reloading.
@@ -66,7 +75,7 @@ __Hot Reloading:__ GoStarter uses Reflex in development for hot reloading.
 make image
 ```
 
-now run the image with
+now run the image with (make sure you've run the migrations first)
 ```shell
 docker run -it go-starter
 ```
@@ -75,5 +84,6 @@ docker run -it go-starter
 Running the tests locally requires a valid database connection. Configure `config.test.yaml` with the appropriate values.
 
 ```shell
+make test-prepare
 make test
 ```
