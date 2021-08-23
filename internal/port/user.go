@@ -77,15 +77,14 @@ func (l *CreateUserRes) MarshalJSON() ([]byte, error) {
 		Email    string `json:"email"`
 	}
 
-	var u *UserAlias
+	var u UserAlias
 
 	if l.User != nil {
 		u.Id = l.User.ID.String()
 		u.Email = l.User.Email
 	}
-
 	return json.Marshal(&struct {
-		User *UserAlias `json:"user"`
+		User UserAlias `json:"user"`
 		Errors interface{} `json:"errors"`
 	}{
 		User:    u,
