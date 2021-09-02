@@ -15,9 +15,9 @@ type ServerInterface interface {
 
 func HandlerFromMux(si ServerInterface, r router.Router) http.Handler {
 	r.Group(func(r router.Router) {
-		r.Get("/healthcheck", si.Healthcheck)
-		r.Get("/users", si.ListUsers)
-		r.Post("/users", si.CreateUser)
+		r.Get("/healthcheck", router.HandlerErrorFunc(si.Healthcheck).ServeHTTP)
+		r.Get("/users", router.HandlerErrorFunc(si.ListUsers).ServeHTTP)
+		r.Post("/users", router.HandlerErrorFunc(si.CreateUser).ServeHTTP)
 	})
 
 	tokenAuth := jwtauth.New("HS256", []byte("secret"), nil)
@@ -25,7 +25,7 @@ func HandlerFromMux(si ServerInterface, r router.Router) http.Handler {
 		// Seek, verify and validate JWT tokens
 		r.Use(jwtauth.Verifier(tokenAuth))
 		r.Use(jwtauth.Authenticator)
-		r.Get("/user", si.FindUser)
+		r.Get("/user", router.HandlerErrorFunc(si.FindUser).ServeHTTP)
 	})
 
 	return r
