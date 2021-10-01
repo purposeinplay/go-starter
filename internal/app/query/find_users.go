@@ -27,5 +27,5 @@ func NewFindUsersHandler(
 }
 
 func (s *FindUsersHandler) Handle(ctx context.Context, q FindUsersCmd) (*[]user.User, error) {
-	return s.repo.Find(ctx, user.User{})
+	return s.repo.FindUser(ctx, user.User{})
 }

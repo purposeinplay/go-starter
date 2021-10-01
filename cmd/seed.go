@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/purposeinplay/go-commons/logs"
-	"github.com/purposeinplay/go-starter/internal/adapter"
+	"github.com/purposeinplay/go-starter/internal/adapters/psql"
 	"github.com/purposeinplay/go-starter/internal/config"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
@@ -26,7 +26,7 @@ var seedCmd = &cobra.Command{
 			logger.Fatal("Unable to read config", zap.Error(err))
 		}
 
-		_, err = adapter.Connect(cfg)
+		_, err = psql.Connect(cfg)
 
 		if err != nil {
 			logger.Fatal("error opening database", zap.Error(err))

@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/purposeinplay/go-commons/logs"
-	"github.com/purposeinplay/go-starter/internal/adapter"
+	"github.com/purposeinplay/go-starter/internal/adapters/psql"
 	"github.com/purposeinplay/go-starter/internal/domain/user"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
@@ -27,7 +27,7 @@ var migrateCmd = &cobra.Command{
 			logger.Fatal("Unable to read config", zap.Error(err))
 		}
 
-		db, err := adapter.Connect(c)
+		db, err := psql.Connect(c)
 
 		if err != nil {
 			logger.Fatal("error opening database", zap.Error(err))
@@ -37,7 +37,7 @@ var migrateCmd = &cobra.Command{
 			&user.User{},
 		}
 
-		if err = adapter.Migrate(db, models); err != nil {
+		if err = psql.Migrate(db, models); err != nil {
 			logger.Fatal("error while performing migration", zap.Error(err))
 		}
 	},

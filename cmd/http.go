@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"github.com/purposeinplay/go-commons/http/router"
 	"github.com/purposeinplay/go-commons/httpserver"
-	"github.com/purposeinplay/go-starter/internal/adapter"
-	"github.com/purposeinplay/go-starter/internal/app"
-	"github.com/purposeinplay/go-starter/internal/port"
+	"github.com/purposeinplay/go-starter/internal/adapters/psql"
+	"github.com/purposeinplay/go-starter/internal/ports"
+	"github.com/purposeinplay/go-starter/internal/service"
 	"log"
 
 	"go.uber.org/zap"
@@ -37,17 +37,17 @@ var HttpCmd = &cobra.Command{
 			logger.Fatal("unable to read config %v", zap.Error(err))
 		}
 
-		db, err := adapter.Connect(config)
+		db, err := psql.Connect(config)
 
 		if err != nil {
 			logger.Fatal("connecting to database: %+v", zap.Error(err))
 		}
 
-		application := app.NewApplication(ctx, config, db, logger)
-		httpPort := port.NewHTTPPort(application, config, db, logger)
+		application := service.NewApplication(ctx, config, db, logger)
+		httpPort := ports.NewHTTPPort(application, config, db, logger)
 
 		handler := router.NewDefaultRouter(logger)
-		port.HandlerFromMux(httpPort, handler)
+		ports.HandlerFromMux(httpPort, handler)
 
 		srv := httpserver.New(
 			logger,

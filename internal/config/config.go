@@ -14,6 +14,7 @@ type Config struct {
 		Port    int    `mapstructure:"port"`
 		Address string `mapstructure:"address"`
 	}
+
 	DB struct {
 		Driver      string `mapstructure:"driver"`
 		HOST        string `mapstructure:"host"`

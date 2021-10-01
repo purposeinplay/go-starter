@@ -32,7 +32,7 @@ func NewUserById(
 }
 
 func (s *UserByIdHandler) Handle(ctx context.Context, q UserByIdCmd) (*user.User, error) {
-	t, err := s.repo.First(ctx, user.User{
+	t, err := s.repo.FirstUser(ctx, user.User{
 		Base:              domain.Base{
 			ID: uuid.Parse(q.Id),
 		},

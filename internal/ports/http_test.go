@@ -1,21 +1,19 @@
-package port
+package ports
 
 import (
 	"github.com/purposeinplay/go-commons/http/router"
-	"github.com/purposeinplay/go-starter/internal/adapter"
-	"github.com/purposeinplay/go-starter/internal/domain"
+	"github.com/purposeinplay/go-starter/internal/adapters/psql"
+	"github.com/purposeinplay/go-starter/internal/domain/i18n"
 	"github.com/stretchr/testify/suite"
 	"net/http"
 	"testing"
 
 	"gorm.io/gorm"
 
+	"github.com/purposeinplay/go-commons/logs"
 	"github.com/purposeinplay/go-starter/internal/app"
 	"github.com/purposeinplay/go-starter/internal/app/command"
 	"github.com/purposeinplay/go-starter/internal/app/query"
-	"github.com/purposeinplay/go-starter/internal/repository"
-
-	"github.com/purposeinplay/go-commons/logs"
 
 	"github.com/purposeinplay/go-starter/internal/config"
 )
@@ -57,15 +55,15 @@ func CreateTestAPI(t *testing.T) (*gorm.DB, ServerInterface, http.Handler) {
 	}
 	defer logger.Sync()
 
-	db, err := adapter.Connect(cfg)
+	db, err := psql.Connect(cfg)
 
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	repo := repository.NewUserRepository(db)
-	validator := domain.NewValidator()
-	translation := domain.NewTranslator(validator)
+	repo := psql.NewUserRepository(db)
+	validator := i18n.NewValidator()
+	translation := i18n.NewTranslator(validator)
 
 	app := app.Application{
 		Commands: app.Commands{

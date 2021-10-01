@@ -29,7 +29,7 @@ func NewUserByEmail(
 }
 
 func (s *UserByEmailHandler) Handle(ctx context.Context, q UserByEmailCmd) (*user.User, error) {
-	t, err := s.repo.First(ctx, user.User{
+	t, err := s.repo.FirstUser(ctx, user.User{
 		Email: q.Email,
 	})
 

@@ -63,7 +63,7 @@ func (h *CreateUserHandler) Handle(ctx context.Context, cmd CreateUserCmd) (*use
 		return nil, errors
 	}
 
-	u, err := h.repo.Create(ctx, &user.User{
+	u, err := h.repo.CreateUser(ctx, &user.User{
 		Email:             cmd.Email,
 	})
 
